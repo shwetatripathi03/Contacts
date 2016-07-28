@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contact App</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+<body  ng-app="contactApp">
+  <div class="container" ng-controller="contactController">
+    <h1>Contacts</h1>
+    <div class="row">
+      <div class="col-md-12">
+        <form class="form-inline well well-sm">
+          <span class="glyphicon glyphicon-search"></span>
+
+          <div class="form-group">
+            <input type="text" class="form-control" id="name" placeholder="Search name..." ng-model="search"/>
+          </div>
+          <span class="glyphicon glyphicon-sort-by-attributes">
+          <div class="form-group">
+            <select ng-model="order">
+              <option value="name">Name(ASC)</option>
+              <option value="-name">Name(DSC)</option>
+              <option value="email">Email(ASC)</option>
+              <option value="-email">Email(DSC)</option>
+            </select>
+          </div>
+          <button class="btn btn-primary btn-success" ng-show="filteredContacts.length == 0"  ng-click="clicked=true">ADD</button>
+      
+      </form>
+
+     
+    </div>
+
+    <table class="table table-bordered">
+      <tr>
+        
+        <th>Name
+          <span ng-click="order = 'name'" class="glyphicon glyphicon-menu-up"></span>
+          <span ng-click="order = '-name'" class="glyphicon glyphicon-menu-down"></span>
+        </th>
+        <th>City</th>
+        <th>Phone</th>
+        <th>Email
+        <span ng-click="order = 'email'" class="glyphicon glyphicon-menu-up"></span>
+          <span ng-click="order = '-email'" class="glyphicon glyphicon-menu-down"></span>
+        </th>
+      </tr>
+
+      <tr ng-repeat="contact in filteredContacts = (contacts | filter:sensitiveSearch | orderBy: order)" ng-style="{'background-color': contact.name == selectedPerson.name ? 'lightgray' : ''}" ng-click="selectContact(contact)">
+        
+        <td> {{ contact.name }} </td>
+        <td> {{ contact.City }} </td>
+        <td> {{ contact.Phone}} </td>
+        <td> {{ contact.email}} </td>
+      </tr>
+
+      <tr ng-show="filteredContacts.length == 0">
+        <td colspan="4">
+          <div class="alert alert-info">
+            <p class="text-center">
+              No results found for search term '{{search}}' . Click on add button to add the record.
+            </p>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+  <div class="add_data" ng-show="clicked">
+        <h1>Add Data</h1>
+        <form ng-submit="Add()">
+            <div class="form-group field">
+                <label for="name">Name: </label>
+                <input type="text" placeholder="Name" ng-model="newName" class="form-control">
+            </div>
+            <div class="form-group field">
+                <label for="city">City: </label>
+                <input type="text" placeholder="City" ng-model="newCity" class="form-control">
+            </div>
+            <div class="form-group field">
+                <label for="phone">Phone: </label>
+                <input type="number" placeholder="Phone" ng-model="newPhone" class="form-control">
+            </div>
+            <div class="form-group field">
+                <label for="email">Email: </label>
+                <input type="email" placeholder="Email" ng-model="newEmail" class="form-control">
+            </div>
+            <div class="action">
+                <button type="submit" class="btn btn-primary-lg" ng-click="Add()">Add</button>
+            </div>
+        </form>
+    </div> 
+<script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
